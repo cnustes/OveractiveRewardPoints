@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.overactive.milo.model.Customer;
-import com.overactive.milo.model.Transaction;
+import com.overactive.milo.entity.Customer;
+import com.overactive.milo.entity.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long>
 {

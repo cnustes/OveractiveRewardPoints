@@ -1,4 +1,4 @@
-package com.overactive.milo.model;
+package com.overactive.milo.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -36,7 +36,6 @@ public class Transaction implements Serializable
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	
-	@NotNull(message = "Creation date cannot be empty.")
 	@Column(name = "CREATION_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;

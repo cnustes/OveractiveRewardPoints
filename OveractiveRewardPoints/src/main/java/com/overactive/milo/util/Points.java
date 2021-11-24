@@ -2,7 +2,7 @@ package com.overactive.milo.util;
 
 import java.util.List;
 
-import com.overactive.milo.model.Transaction;
+import com.overactive.milo.entity.Transaction;
 
 public class Points 
 {

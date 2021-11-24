@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.overactive.milo.model.Customer;
-import com.overactive.milo.model.Transaction;
+import com.overactive.milo.entity.Customer;
+import com.overactive.milo.entity.Transaction;
 import com.overactive.milo.repository.TransactionRepository;
 import com.overactive.milo.service.TransactionService;
 import com.overactive.milo.util.Points;

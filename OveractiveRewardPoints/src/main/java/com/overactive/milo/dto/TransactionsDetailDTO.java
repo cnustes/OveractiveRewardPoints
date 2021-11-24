@@ -3,7 +3,7 @@ package com.overactive.milo.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import com.overactive.milo.model.Transaction;
+import com.overactive.milo.entity.Transaction;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

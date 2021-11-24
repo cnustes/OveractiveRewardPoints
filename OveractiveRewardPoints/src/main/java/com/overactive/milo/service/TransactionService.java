@@ -3,8 +3,8 @@ package com.overactive.milo.service;
 
 import java.util.List;
 
-import com.overactive.milo.model.Customer;
-import com.overactive.milo.model.Transaction;
+import com.overactive.milo.entity.Customer;
+import com.overactive.milo.entity.Transaction;
 
 
 public interface TransactionService 

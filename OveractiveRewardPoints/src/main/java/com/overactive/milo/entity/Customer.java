@@ -1,6 +1,5 @@
-package com.overactive.milo.model;
+package com.overactive.milo.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +12,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Id;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,17 +21,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "CUSTOMER")
 @Data @Builder @AllArgsConstructor @NoArgsConstructor
-public class Customer implements Serializable
+public class Customer
 {
-	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	
 	@NotEmpty(message = "Document number cannot be empty.")
-    @Size(min = 8, max = 8, message = "The number has to have 8 digits.")
-	@Column(name = "CUSTOMER_ID", unique = true, length = 8, nullable = false)
+    @Column(name = "CUSTOMER_ID", unique = true, length = 8, nullable = false)
 	private String customerId;
 	
 	@NotEmpty(message = "Name cannot be empty.")

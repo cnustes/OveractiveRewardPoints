@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.overactive.milo.model.Customer;
-import com.overactive.milo.model.Transaction;
+import com.overactive.milo.entity.Customer;
+import com.overactive.milo.entity.Transaction;
 import com.overactive.milo.repository.TransactionRepository;
 
 @DataJpaTest
