@@ -23,6 +23,9 @@ Given a record of every transaction during a three month period, calculate the r
 11. Use of appropriate logging levels, framework
 12. Reward calculation logic should be accurate
 
+## Description of the developed solution:
+A Rest API was developed that features security from JWT (Java Web Token). A data.sql file was created which contains the necessary data for the execution of the services, this data is replicated in a H2 embedded database. It also has quick validations such as binding, type and lengths provided by springframework.
+
 ## How to Run
 ### From Eclipse (STS) Using GIT:
 1. Open File->Import... and select Git->Git Projects
