@@ -12,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,6 +34,8 @@ import com.overactive.milo.util.ParameterMessages;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/auth")
@@ -111,10 +112,19 @@ public class AuthController
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 		String jwt = jwtProvider.generateToken(authentication);
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		JwtDTO jwtDTO = new JwtDTO(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+		JwtDTO jwtDTO = new JwtDTO(jwt);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(jwtDTO);	
 		
 	}
+	
+	@ApiOperation(value = "Operation that allows a token to be refreshed for a longer lifetime and updated scope.", notes = "The token expires every 20 seconds.")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = ParameterMessages.ERROR_SERVER),
+							@ApiResponse(code = 200, message = ParameterMessages.RESPONSE_OK) })
+	@PostMapping("/refresh")
+    public ResponseEntity<JwtDTO> refresh(@RequestBody JwtDTO jwtDto) throws ParseException{
+        String token = jwtProvider.refreshToken(jwtDto);
+        JwtDTO jwt = new JwtDTO(token);
+        return new ResponseEntity<JwtDTO>(jwt, HttpStatus.OK);
+    }
 }
