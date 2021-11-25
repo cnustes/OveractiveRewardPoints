@@ -52,7 +52,7 @@ public class Transaction implements Serializable
 	private int pointTransaction;
 	
 	@NotNull(message = "Customer identification cannot be empty.")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CUSTOMER_ID")
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	private Customer customer;

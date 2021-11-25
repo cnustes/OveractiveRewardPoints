@@ -38,7 +38,7 @@ public class CustomerRest
 	@ApiResponses(value = { @ApiResponse(code = 500, message = ParameterMessages.ERROR_SERVER),
 			@ApiResponse(code = 404, message = ParameterMessages.ERROR_NO_DATA),
 			@ApiResponse(code = 200, message = ParameterMessages.RESPONSE_OK) })
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<List<Customer>> listAllCustomers()
 	{
 		List<Customer> liCustomers = customerService.listCustomers();
@@ -48,7 +48,7 @@ public class CustomerRest
 			return ResponseEntity.noContent().build();
 		}
 		
-		return ResponseEntity.ok(liCustomers);
+		return ResponseEntity.status(HttpStatus.OK).body(liCustomers);
 	}
 	
 	@ApiOperation(value = "Operation to create a record of a customer.", notes = "The information is stored in an embedded H2 database.")

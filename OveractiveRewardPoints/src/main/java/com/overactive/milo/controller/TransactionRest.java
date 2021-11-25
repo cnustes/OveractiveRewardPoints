@@ -48,7 +48,7 @@ public class TransactionRest
 			@ApiResponse(code = 404, message = ParameterMessages.ERROR_NO_DATA),
 			@ApiResponse(code = 200, message = ParameterMessages.RESPONSE_OK) })
 	@GetMapping("/list")
-	public ResponseEntity<List<Transaction>> listAllTransactions()
+	public ResponseEntity<Object> listAllTransactions()
 	{
 		List<Transaction> lTransactions = transactionService.listTransactions();
 		
@@ -57,7 +57,7 @@ public class TransactionRest
 			return ResponseEntity.noContent().build();
 		}
 		
-		return ResponseEntity.ok(lTransactions);
+		return ResponseEntity.status(HttpStatus.OK).body(lTransactions);
 	}
 	
 	@ApiOperation(value = "Operation that allows to obtain the record of a transaction by its ID.", notes = "The information comes from an embedded H2 database.")
@@ -138,7 +138,7 @@ public class TransactionRest
         	return  ResponseEntity.notFound().build();
         }
 
-        return  ResponseEntity.ok(lDetailDTOs);
+        return  ResponseEntity.status(HttpStatus.OK).body(lDetailDTOs);
     }
 	
 }
