@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.overactive.milo.security.dto.JwtDTO;
 import com.overactive.milo.security.dto.LoginUserDTO;
@@ -32,6 +31,10 @@ import com.overactive.milo.security.jwt.JwtProvider;
 import com.overactive.milo.security.service.RoleService;
 import com.overactive.milo.security.service.UserService;
 import com.overactive.milo.util.ParameterMessages;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/auth")
@@ -49,22 +52,28 @@ public class AuthController
 	@Autowired
 	JwtProvider jwtProvider;
 	
+	@ApiOperation(value = "Operation that allows to create a user to generate a token.", notes = "The word admin must be sent in role to be able to execute the create and update services.")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = ParameterMessages.ERROR_SERVER),
+							@ApiResponse(code = 400, message = ParameterMessages.BAD_REQUEST),
+							@ApiResponse(code = 404, message = ParameterMessages.ERROR_NO_DATA),
+							@ApiResponse(code = 200, message = ParameterMessages.RESPONSE_OK) })
 	@PostMapping("/newUser")
-	public ResponseEntity<UserSecurity> newUser(@Valid @RequestBody NewUserDTO newUser, BindingResult result)
+	public ResponseEntity<?> newUser(@Valid @RequestBody NewUserDTO newUser, BindingResult result)
 	{
 		if(result.hasErrors())
 		{
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ParameterMessages.formatMessage(result));
+			return new ResponseEntity<Object>(ParameterMessages.formatMessage(result), HttpStatus.BAD_REQUEST);
+			
 		}
 		
-		if(userService.isUserExistByUserName(newUser.getName()))
+		if(userService.isUserExistByUserName(newUser.getUserName()))
 		{
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exist");
+			return new ResponseEntity<Object>(ParameterMessages.especificError("username", "UserName already exist"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(userService.isUserExistByEmail(newUser.getEmail()))
 		{
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exist");
+			return new ResponseEntity<Object>(ParameterMessages.especificError("email", "Email already exist"), HttpStatus.BAD_REQUEST);			
 		}
 		
 		UserSecurity user = new UserSecurity(newUser.getName(),newUser.getUserName(),newUser.getEmail(), passwordEncoder.encode(newUser.getPassword()));
@@ -83,12 +92,17 @@ public class AuthController
 		return ResponseEntity.status(HttpStatus.CREATED).body(user);		
 	}
 	
+	@ApiOperation(value = "Operation to obtain a token.", notes = "The scope of the token will depend on the user who generates it.")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = ParameterMessages.ERROR_SERVER),
+							@ApiResponse(code = 400, message = ParameterMessages.BAD_REQUEST),
+							@ApiResponse(code = 404, message = ParameterMessages.ERROR_NO_DATA),
+							@ApiResponse(code = 200, message = ParameterMessages.RESPONSE_OK) })
 	@PostMapping("/login")
-	public ResponseEntity<JwtDTO>login(@Valid @RequestBody LoginUserDTO loginUser, BindingResult result)
+	public ResponseEntity<?>login(@Valid @RequestBody LoginUserDTO loginUser, BindingResult result)
 	{
 		if(result.hasErrors())
 		{
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ParameterMessages.formatMessage(result));
+			return new ResponseEntity<Object>(ParameterMessages.formatMessage(result), HttpStatus.BAD_REQUEST);
 		}
 		
 		Authentication authentication = authenticationManager.authenticate(

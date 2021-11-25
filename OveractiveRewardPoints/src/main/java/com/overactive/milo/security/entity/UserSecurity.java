@@ -30,16 +30,14 @@ public class UserSecurity
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
 	@Column(name = "NAME_USER")
 	private String name;
 	
 	@Column(name = "USERNAME", unique = true, nullable = false)
 	private String userName;
 	
-	@NotNull
 	@Email
-	@Column(name = "USER_EMAIL")
+	@Column(name = "USER_EMAIL", unique = true, nullable = false)
 	private String email;
 	
 	@Column(name = "USER_PASSWORD", nullable = false)

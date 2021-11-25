@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.overactive.milo.security.jwt.JwtEntryPoint;
-import com.overactive.milo.security.jwt.JwtFilterToken;
+import com.overactive.milo.security.jwt.JwtTokenFilter;
 import com.overactive.milo.security.service.impl.UserDetailServiceImpl;
 
 @Configuration
@@ -30,9 +30,9 @@ public class MainSecurity extends WebSecurityConfigurerAdapter
 	JwtEntryPoint jwtEntryPoint;
 	
 	@Bean
-	public JwtFilterToken jwtFilterToken() 
+	public JwtTokenFilter jwtFilterToken() 
 	{
-		return new JwtFilterToken();
+		return new JwtTokenFilter();
 	}
 	
 	@Bean

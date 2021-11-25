@@ -18,13 +18,13 @@ import com.overactive.milo.security.service.impl.UserDetailServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class JwtFilterToken extends OncePerRequestFilter
+public class JwtTokenFilter extends OncePerRequestFilter
 {
 	@Autowired
 	JwtProvider jwtProvider;
 	
 	@Autowired
-	UserDetailServiceImpl userDetailServiceImpl;
+	UserDetailServiceImpl userDetailService;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -35,10 +35,10 @@ public class JwtFilterToken extends OncePerRequestFilter
 			if(token != null && jwtProvider.validateToken(token))
 			{
 				String userName = jwtProvider.getUserNameFromToken(token);
-				UserDetails userDetails = userDetailServiceImpl.loadUserByUsername(userName);
+				UserDetails userDetails = userDetailService.loadUserByUsername(userName);
 				
 				UsernamePasswordAuthenticationToken auth 
-					= new UsernamePasswordAuthenticationToken(userName, userDetails);
+					= new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 				
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
