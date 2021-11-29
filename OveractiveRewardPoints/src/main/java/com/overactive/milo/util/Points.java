@@ -8,13 +8,13 @@ public class Points
 {
 	public static int calculatePointLongByTransactions(List<Transaction> transactions)
 	{
-		transactions.stream().filter(x -> x.getAmount()> 50);
+		transactions.stream().filter(x -> x.getAmount() > 50);
 		
 		int  points = 0;
 				
 		for (Transaction transaction : transactions) 
 		{
-			points = calculatePointByTransaction(transaction);
+			points += calculatePointByTransaction(transaction);
 		}
 		
 		return points;
